@@ -1,0 +1,1 @@
+start-process -FilePath .\teamsbootstrapper.exe -ArgumentList "-x"
