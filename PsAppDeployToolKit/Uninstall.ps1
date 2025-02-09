@@ -1,16 +1,27 @@
-function TranscriptVariables{
+# Define the module variable at the beginning
+$Module = "PsAppDeployToolKit"
+
+function Logs() {
     $date = get-date -format "dddd-MM-dd-HH"
-    $module = "psappdeploytoolkit"
-    $logPath = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\uninstall_$module_Powershell_Module_$date.log"
+    $app = "psappdeploytoolkit"
+    $method = "Install"
+    $logPath = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\$method $app $date.log"
+    Start-Transcript -Path $logPath -Append -Force
 }
 
-TranscriptVariables
+function Dependencies() {
+    if (!(Get-PackageProvider -Name NuGet -ListAvailable -ErrorAction SilentlyContinue)) {
+        Install-PackageProvider -Name NuGet -Force
+    } else {
+        Write-Host "NuGet package provider is already installed." -ForegroundColor Green
+    }
+}
 
-Start-Transcript -Path $logPath -Append
+Logs
 
 try {
     Write-Host "Attempting to uninstall the Module '$module'"
-    uninstall-Module -Name $module -Force -AllowClobber -Scope -AllVersions
+    uninstall-Module -Name $module -Force -AllVersions
     Write-Host "'$module' has been installed successfully!"
 } catch {
     Write-Host "An error occurred while trying to uninstall the module."

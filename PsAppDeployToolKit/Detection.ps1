@@ -5,5 +5,6 @@ if($evidence){
     Exit 0
 }
 else {
+    Write-host "Not found"
     Exit 1
 }
