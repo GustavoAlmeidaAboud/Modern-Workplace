@@ -1,4 +1,4 @@
-function TranscriptVariables() {
+function Logs() {
     $date = get-date -format "dddd-MM-dd-HH"
     $module = "psappdeploytoolkit"
     $logPath = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\install_$module_Powershell_Module_$date.log"
@@ -12,3 +12,4 @@ function Dependencies {
     } else {
         Write-Host "NuGet package provider is already installed." -ForegroundColor Green
     }
+}
