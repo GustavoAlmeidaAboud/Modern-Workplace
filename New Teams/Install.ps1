@@ -1,8 +1,10 @@
 # Function to generate log file path with current date and module name
 function Logs() {
     $date = get-date -format "dddd-MM-dd-HH"
-    $module = "New_Teams"
-    $logPath = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\install_$module_Powershell_Module_$date.log"
+    $app = "New Teams"
+    $method = "Install"
+    $logPath = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\$method $app $date.log"
+    Start-Transcript -Path $logPath -Append -Force
 }
 
 # Check if Teams Classic exists
@@ -13,9 +15,6 @@ $TeamsNew = Get-AppxPackage -AllUsers | Where-Object PackageFullName -like '*MST
 
 # Generate log file path
 Logs
-
-# Start logging
-start-transcript -Path $logPath -Append -Force
 
 # If Teams Classic exists, uninstall it
 if ($TeamsClassic) {
