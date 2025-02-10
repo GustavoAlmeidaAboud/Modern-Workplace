@@ -1,18 +1,23 @@
-# Define the registry path
-$registryPath = "HKCU:\Software\Microsoft\Office\16.0\Outlook\Resiliency\DoNotDisableAddinList"
-
-# Define the name and value of the DWORD
-$dwordName = "TeamsAddin.FastConnect"
-$dwordValue = 1
-
-# Create the registry key if it doesn't exist
-if (-not (Test-Path $registryPath)) {
-    New-Item -Path $registryPath -Force
+function New-RegistryKeyValue {
+    param (
+        [string]$Path = "HKCU:\Software\Microsoft\Office\16.0\Outlook\Resiliency\DoNotDisableAddinList",
+        [string]$ValueName = "TeamsAddin.FastConnect",
+        [int]$Value = 1,
+        [string]$Type = "DWORD"
+    )
+    
+    # Create the new registry key and set the DWORD value
+    New-ItemProperty -Path $Path -Name $ValueName -Value $Value -PropertyType $Type -Force
 }
 
-# Set the DWORD value
-New-ItemProperty -Path $registryPath -Name $dwordName -Value $dwordValue -PropertyType DWORD -Force
-
-Write-Output "Registry key and value created successfully."
-
-exit 0
+## Calling functions
+try {
+    New-RegistryKeyValue
+    Exit 0
+}
+catch {
+    Write-Host "Key couldn't be added: $($_.Exception.Message)"
+}
+finally {
+    Stop-Transcript
+}
