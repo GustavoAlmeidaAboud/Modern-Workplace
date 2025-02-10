@@ -22,7 +22,7 @@ Logs
 try {
     Write-Host "Attempting to uninstall the Module '$module'"
     uninstall-Module -Name $module -Force -AllVersions
-    Write-Host "'$module' has been installed successfully!"
+    Write-Host "'$module' has been uninstalled successfully!"
 } catch {
     Write-Host "An error occurred while trying to uninstall the module."
     Write-Host "Error Details: $($_.Exception.Message)"

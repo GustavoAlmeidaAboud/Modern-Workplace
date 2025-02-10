@@ -1,8 +1,13 @@
-$evidence = get-module -name "psappdeploytoolkit" -ListAvailable
-$date = get-date -format "dddd-mm-dd-hh"
-$app = get-adtapplication -name "Gimp"
-$appuninstall = $app.UninstallString
-$logPath = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\uninstallapplication$AppName_$date.txt"
+function Logs() {
+    $date = get-date -format "dddd-MM-dd-HH"
+    $app = "Gimp"
+    $method = "Uninstall"
+    $logPath = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\$method $app $date.log"
+    Start-Transcript -Path $logPath -Append -Force
+}
 
-start-process -FilePath $appuninstall -argumentlist /VERYSILENT
+Logs
+winget uninstall --id "GIMP.GIMP" --silent --force --purge --disable-interactivity
+
+stop-transcript
 Exit 0
