@@ -46,5 +46,7 @@ function wingetcmd {
     } else {
         $winget = $winget.Path
     }
-    $winget = $wingetcmd
+    return $winget
 }
+
+$winget = wingetcmd
