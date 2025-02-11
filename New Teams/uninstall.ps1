@@ -1,14 +1,15 @@
 # Function to generate log file path with current date and module name
-function Logs() {
+function Start-Logs() {
+    param(
+        [string]$AppName = "",
+        [string]$Method = ""
+    )
     $date = get-date -format "dddd-MM-dd-HH"
-    $app = "New Teams"
-    $method = "Uninstall"
-    $logPath = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\$method $app $date.log"
+    $logPath = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\$method-$AppName-$date.log"
     Start-Transcript -Path $logPath -Append -Force
 }
-
-# Generate log file path
-Logs
+#Generate Log files
+start-logs -AppName "New Microsoft Teams" -Method "unnstall"
 
 # Run the uninstallation process for Teams
 start-process -FilePath .\teamsbootstrapper.exe -ArgumentList "-x"

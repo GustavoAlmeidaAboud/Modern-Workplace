@@ -1,14 +1,15 @@
 # Define a function to get the property value of a specific registry path
-function GetKeyValue {
+function Get-KeyValue {
     param(
-        # Define a parameter to accept the registry path, with a default value set
-        [String]$path = "registry::HKCU:\Software\Microsoft\Office\16.0\Outlook\Resiliency\DoNotDisableAddinList"
+        [String]$path = ""
     )
-    Get-ItemProperty -Path $path    
+    # Retrieve the properties of the specified registry path
+    Get-ItemProperty -Path $path
 }
+# Example Usage
+Get-KeyValue -path "registry::HKCU:\Software\Microsoft\Office\16.0\Outlook\Resiliency\DoNotDisableAddinList"
 
-# Call the function to get the registry key value and store it in a variable
-$keyValue = GetKeyValue
+$addinValue = Get-KeyValue
 
 # Access the specific property value of the registry key
 $addinValue = $keyValue.'TeamsAddin.FastConnect'

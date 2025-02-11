@@ -1,6 +1,5 @@
 # Define the module variable at the beginning
 $Module = "PsAppDeployToolKit"
-
 function Start-Logs() {
     param(
         [string]$AppName = "",
