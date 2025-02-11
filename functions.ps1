@@ -1,20 +1,15 @@
 ## Generate Logs
-function Logs() {
+function Start-Logs() {
+    param(
+        [string]$AppName = "",
+        [string]$Method = ""
+    )
     $date = get-date -format "dddd-MM-dd-HH"
-    $app = "New Teams"
-    $method = "Uninstall"
-    $logPath = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\$method$app$date.log"
+    $logPath = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\$method-$AppName-$date.log"
     Start-Transcript -Path $logPath -Append -Force
 }
-
-## Test nuget Package
-function Dependencies {
-    if (!(Get-PackageProvider -Name NuGet -ListAvailable -ErrorAction SilentlyContinue)) {
-        Install-PackageProvider -Name NuGet -Force
-    } else {
-        Write-Host "NuGet package provider is already installed." -ForegroundColor Green
-    }
-}
+# Example usage
+Start-Logs -AppName "Git" -Method "Uninstall"
 
 ## Add registry key value
 function New-RegistryKeyValue {
@@ -24,22 +19,26 @@ function New-RegistryKeyValue {
         [int]$Value = '1',
         [string]$Type = "DWORD"
     )
-    
+
     # Create the new registry key and set the DWORD value
     New-ItemProperty -Path $Path -Name $ValueName -Value $Value -PropertyType $Type -Force
 }
+# Example Usage
+New-RegistryKeyValue -Path "" -ValueName "" -Value "" -Type ""
+
 
 # Define a function to get the property value of a specific registry path
-function GetKeyValue {
+function Get-KeyValue {
     param(
-        # Define a parameter to accept the registry path, with a default value set
-        [String]$path = "registry::HKCU:\Software\Microsoft\Office\16.0\Outlook\Resiliency\DoNotDisableAddinList"
+        [String]$path = ""
     )
     # Retrieve the properties of the specified registry path
     Get-ItemProperty -Path $path    
 }
+# Example Usage
+Get-KeyValue -path "registry::HKCU:\Software\Microsoft\Office\16.0\Outlook\Resiliency\DoNotDisableAddinList"
 
-function wingetcmd {
+function Get-WingetPath {
     $winget = Resolve-Path "C:\Program Files\WindowsApps\Microsoft.DesktopAppInstaller_*_*__8wekyb3d8bbwe\winget.exe"
     if ($winget.Count -gt 1) {
         $winget = $winget[-1].Path
@@ -49,4 +48,25 @@ function wingetcmd {
     return $winget
 }
 
-$winget = wingetcmd
+function Get-WingetApp {
+    param(
+        [string]$AppName = "firefox"
+    )
+    # Get the winget executable path
+    $Winget = Get-WingetPath
+    # Execute the winget command and store the result
+    $Evidence = & $Winget list $AppName
+    
+    # Check if the app is found
+    if ($Evidence -contains "No installed package found matching input criteria.") {
+        Write-Host "Not found"
+        Exit 1
+    }
+    else {
+        Write-Host "Found it"
+        Exit 0
+    }
+}
+
+# Example usage
+Get-WingetApp -AppName "firefox"

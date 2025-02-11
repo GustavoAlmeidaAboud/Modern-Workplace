@@ -1,28 +1,19 @@
 # Define the module variable at the beginning
 $Module = "PsAppDeployToolKit"
 
-function Logs() {
+function Start-Logs() {
+    param(
+        [string]$AppName = "",
+        [string]$Method = ""
+    )
     $date = get-date -format "dddd-MM-dd-HH"
-    $app = "psappdeploytoolkit"
-    $method = "Install"
-    $logPath = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\$method $app $date.log"
+    $logPath = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\$method-$AppName-$date.log"
     Start-Transcript -Path $logPath -Append -Force
 }
+# Example usage
+Start-Logs -AppName "psappdeploytoolkit" -Method "install"
 
-function Dependencies() {
-    if (!(Get-PackageProvider -Name NuGet -ListAvailable -ErrorAction SilentlyContinue)) {
-        Install-PackageProvider -Name NuGet -Force
-    } else {
-        Write-Host "NuGet package provider is already installed." -ForegroundColor Green
-    }
-}
-
-Logs
-
-# Check whether NuGet package is installed or not
 try {
-    Write-Host "Checking NuGet dependency..."
-    Dependencies  # Call function to ensure NuGet provider is installed
     Write-Host "Attempting to install the '$Module'"
     Install-Module -Name $Module -Force -AllowClobber -Scope AllUsers
     Write-Host "'$Module' has been installed successfully!"
