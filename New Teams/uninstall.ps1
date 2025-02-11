@@ -9,7 +9,7 @@ function Start-Logs() {
     Start-Transcript -Path $logPath -Append -Force
 }
 #Generate Log files
-start-logs -AppName "New Microsoft Teams" -Method "unnstall"
+start-logs -AppName "New Microsoft Teams" -Method "uninstall"
 
 # Run the uninstallation process for Teams
 start-process -FilePath .\teamsbootstrapper.exe -ArgumentList "-x"

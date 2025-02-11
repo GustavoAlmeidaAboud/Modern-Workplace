@@ -1,4 +1,5 @@
-. .\functions.ps1
+. C:\Users\almei\Modern-Workplace\functions.ps1
+
 function Uninstall-WingetApp {
     param(
         [string]$AppID = ""
