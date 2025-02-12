@@ -75,7 +75,7 @@ function Uninstall-WingetApp {
     # Get the winget executable path
     $Winget = Get-WingetPath
     # Execute the winget command and store the result
-    &$Winget uninstall --id $AppID -All -h- --force --accept-source-agreements
+    &$Winget uninstall --id $AppID -All -h --force --accept-source-agreements
 }
 
 # Example usage
@@ -89,7 +89,7 @@ function install-WingetApp {
     # Get the winget executable path
     $Winget = Get-WingetPath
     # Execute the winget command and store the result
-    &$Winget install --id $AppID -All -h- --force --accept-source-agreements --accept-package-agreements
+    &$Winget install --id $AppID -All -h --force --accept-source-agreements --accept-package-agreements
 }
 
 # Example usage
