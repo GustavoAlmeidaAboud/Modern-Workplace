@@ -26,13 +26,14 @@ if ($TeamsClassic) {
 }
 
 # If New Teams is already installed, exit
-if ($TeamsNew) {
+if ($TeamsNew.'PackageUserInformation'.'InstallState' -contains "Installed") {
     Write-Host "New Microsoft Teams is already installed"
     Stop-Transcript
     Exit 0
 } else {
     # If New Teams is not installed, install it
     Write-Host "Installing New Microsoft Teams"
+    Start-Process -FilePath ".\teamsbootstrapper.exe" -ArgumentList "-p" -Wait
     Start-Process -FilePath ".\teamsbootstrapper.exe" -ArgumentList "-p" -Wait
     Stop-Transcript
     Exit 0

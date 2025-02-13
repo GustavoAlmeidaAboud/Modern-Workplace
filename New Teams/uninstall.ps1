@@ -14,6 +14,7 @@ Start-Logs -AppName "New Microsoft Teams" -Method "uninstall"
 
 # Run the uninstallation process for Teams
 Start-Process -FilePath ".\teamsbootstrapper.exe" -ArgumentList "-x" -Wait
+Get-AppxPackage -AllUsers| Where-Object PackageFullName -like '*MSTeams*' | Remove-AppxPackage -Confirm:$false
 
 # Stop logging
 Stop-Transcript
