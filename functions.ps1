@@ -1,4 +1,4 @@
-## Generate Logs
+# Generate Logs
 function Start-Logs() {
     param(
         [string]$AppName = "",
@@ -11,7 +11,7 @@ function Start-Logs() {
     # Start-Logs -AppName "Git" -Method "Uninstall"
 }
 
-## Add registry key value
+# Add registry key value
 function New-RegistryKeyValue {
     param (
         [string]$Path = "HKCU:\Software\Microsoft\Office\16.0\Outlook\Resiliency\DoNotDisableAddinList",
@@ -73,11 +73,20 @@ function Uninstall-WingetApp {
     # Get the winget executable path
     $Winget = Get-WingetPath
     # Execute the winget command and store the result
-    &$Winget uninstall --id $AppID -All -h --force --accept-source-agreements
+    &$Winget uninstall --id $AppID -All --silent --force --accept-source-agreements
     # Example Usage
     # Uninstall-WingetApp -AppID "Mozilla.Firefox"
 }
 
+function Install-WingetApp {
+    $Winget = Get-WingetPath
+    param(
+        [string]$AppID
+    )
+    &$Winget install --id $AppID -All --silent --force --accept-source-agreements --accept-package-agreements
+    # Example usage
+    # install-WingetApp -AppID "VideoLAN.VLC"
+}
 
 function Pin-WingetApp {
     param (
@@ -91,17 +100,18 @@ function Pin-WingetApp {
 
 function Update-WingetAppAll {
  $winget = Get-WingetPath
- return &$winget update --All --accept-package-agreements --accept-source-agreements --force
+ return &$winget update --All --silent --accept-package-agreements --accept-source-agreements --force
  # Example Usage
  # Update-WingetAppAll
 }
 
-function Install-WingetApp {
-    $Winget = Get-WingetPath
+function Update-WingetApp {
     param(
         [string]$AppID
     )
-    &$Winget install --id $AppID -All -h --force --accept-source-agreements --accept-package-agreements
-    # Example usage
-    # install-WingetApp -AppID "VideoLAN.VLC"
-}
+    $winget = Get-WingetPath
+    &$winget update --id $AppID --silent --accept-package-agreements --accept-source-agreements --force
+    # Example Usage
+    # Update-WingetApp -AppID ""
+   }
+
