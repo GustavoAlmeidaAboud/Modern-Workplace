@@ -7,9 +7,9 @@ function Start-Logs() {
     $date = get-date -format "dddd-MM-dd-HH"
     $logPath = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\$method-$AppName-$date.log"
     Start-Transcript -Path $logPath -Append -Force
+    # Example Usage
+    # Start-Logs -AppName "Git" -Method "Uninstall"
 }
-# Example usage
-#:Start-Logs -AppName "Git" -Method "Uninstall"
 
 ## Add registry key value
 function New-RegistryKeyValue {
@@ -20,23 +20,22 @@ function New-RegistryKeyValue {
         [string]$Type = "DWORD"
     )
 
-    # Create the new registry key and set the DWORD value
     New-ItemProperty -Path $Path -Name $ValueName -Value $Value -PropertyType $Type -Force
+    # Example Usage
+    # New-RegistryKeyValue -Path "" -ValueName "" -Value "" -Type ""
 }
-# Example Usage
-#:New-RegistryKeyValue -Path "" -ValueName "" -Value "" -Type ""
-
 
 # Define a function to get the property value of a specific registry path
 function Get-KeyValue {
     param(
-        [String]$path = ""
+        [String]$path
     )
     # Retrieve the properties of the specified registry path
     Get-ItemProperty -Path $path    
+    # Example Usage
+    # Get-KeyValue -path "registry::HKCU:\Software\Microsoft\Office\16.0\Outlook\Resiliency\DoNotDisableAddinList"
+
 }
-# Example Usage
-#:Get-KeyValue -path "registry::HKCU:\Software\Microsoft\Office\16.0\Outlook\Resiliency\DoNotDisableAddinList"
 
 function Get-WingetPath {
     $winget = Resolve-Path "C:\Program Files\WindowsApps\Microsoft.DesktopAppInstaller_*_*__8wekyb3d8bbwe\winget.exe"
@@ -49,13 +48,12 @@ function Get-WingetPath {
 }
 
 function Detect-WingetApp {
-    param(
-        [string]$AppName = "firefox"
-    )
-    # Get the winget executable path
     $Winget = Get-WingetPath
+    param(
+        [string]$AppName
+    )
     # Execute the winget command and store the result
-    $Evidence = & $Winget list $AppName
+    $Evidence = &$Winget list $AppName
     
     # Check if the app is found
     if ($Evidence -contains "No installed package found matching input criteria.") {
@@ -76,26 +74,34 @@ function Uninstall-WingetApp {
     $Winget = Get-WingetPath
     # Execute the winget command and store the result
     &$Winget uninstall --id $AppID -All -h --force --accept-source-agreements
+    # Example Usage
+    # Uninstall-WingetApp -AppID "Mozilla.Firefox"
 }
 
-function Update-WingetApp {
- $winget = Get-WingetPath
- &$winget update --All --accept-package-agreements --accept-source-agreements --force
-}
 
-# Example usage
-## Uninstall-WingetApp -AppID "Vlc"
-
-
-function install-WingetApp {
-    param(
-        [string]$AppID = ""
+function Pin-WingetApp {
+    param (
+        [String]$AppID
     )
-    # Get the winget executable path
-    $Winget = Get-WingetPath
-    # Execute the winget command and store the result
-    &$Winget install --id $AppID -All -h --force --accept-source-agreements --accept-package-agreements
+    $winget = Get-WingetPath
+    &$winget pin add --id $AppID
+    # Example usage
+    # Pin-WingetApp -AppID "Valve.Steam"
 }
 
-# Example usage
-## install-WingetApp -AppID "VideoLAN.VLC"
+function Update-WingetAppAll {
+ $winget = Get-WingetPath
+ return &$winget update --All --accept-package-agreements --accept-source-agreements --force
+ # Example Usage
+ # Update-WingetAppAll
+}
+
+function Install-WingetApp {
+    $Winget = Get-WingetPath
+    param(
+        [string]$AppID
+    )
+    &$Winget install --id $AppID -All -h --force --accept-source-agreements --accept-package-agreements
+    # Example usage
+    # install-WingetApp -AppID "VideoLAN.VLC"
+}
