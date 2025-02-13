@@ -8,5 +8,22 @@ function Get-WingetPath {
     return $winget
 }
 
-$winget = Get-WingetPath
 
+function Pin-WingetApp {
+    $winget = Get-WingetPath
+    param (
+        [String]$AppID
+    )
+    &$winget pin add --id $AppID
+    # Example usage
+    # Pin-WingetApp -AppID "Valve.Steam"
+}
+
+
+Microsoft Teams: Microsoft.Teams
+Google Chrome: Google.Chrome
+Microsoft Edge: Microsoft.Edge
+Microsoft Outlook: Microsoft.Outlook
+Zoom: Zoom.Zoom
+Microsoft Office: Microsoft.Office
+Visual Studio Code: Microsoft.VisualStudioCode
