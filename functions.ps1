@@ -48,7 +48,7 @@ function Get-WingetPath {
     return $winget
 }
 
-function Get-WingetApp {
+function Detect-WingetApp {
     param(
         [string]$AppName = "firefox"
     )
@@ -76,6 +76,11 @@ function Uninstall-WingetApp {
     $Winget = Get-WingetPath
     # Execute the winget command and store the result
     &$Winget uninstall --id $AppID -All -h --force --accept-source-agreements
+}
+
+function Update-WingetApp {
+ $winget = Get-WingetPath
+ &$winget update --All --accept-package-agreements --accept-source-agreements --force
 }
 
 # Example usage
