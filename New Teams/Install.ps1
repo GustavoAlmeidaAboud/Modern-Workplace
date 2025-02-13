@@ -38,6 +38,3 @@ if ($TeamsNew.'PackageUserInformation'.'InstallState' -contains "Installed") {
     Stop-Transcript
     Exit 0
 }
-
-# Stop logging
-Stop-Transcript
