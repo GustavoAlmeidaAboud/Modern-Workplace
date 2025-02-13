@@ -1,4 +1,4 @@
-. .\functions.ps1
+. C:\Users\almei\Modern-Workplace\functions.ps1
 function install-WingetApp {
     param(
         [string]$AppID = ""
