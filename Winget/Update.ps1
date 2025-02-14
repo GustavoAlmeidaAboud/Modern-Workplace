@@ -20,10 +20,26 @@ function Pin-WingetApp {
 }
 
 
-Microsoft Teams: Microsoft.Teams
-Google Chrome: Google.Chrome
-Microsoft Edge: Microsoft.Edge
-Microsoft Outlook: Microsoft.Outlook
-Zoom: Zoom.Zoom
-Microsoft Office: Microsoft.Office
-Visual Studio Code: Microsoft.VisualStudioCode
+$appsToAvoid = @(
+    "Microsoft.Teams",
+    "Google.Chrome",
+    "Microsoft.Edge",
+    "Microsoft.Outlook",
+    "Zoom.Zoom",
+    "Microsoft.Office",
+    "Microsoft.VisualStudioCode",
+    "Microsoft.UI.Xaml.2.7",
+    "Microsoft.OneDrive"
+)
+
+foreach($apptoavoid in $appsToAvoid){
+    Pin-WingetApp -AppID $apptoavoid
+}
+
+
+function Update-WingetAppAll {
+    $winget = Get-WingetPath
+    return &$winget update --All --silent --accept-package-agreements --accept-source-agreements --force
+    # Example Usage
+    # Update-WingetAppAll
+   }
