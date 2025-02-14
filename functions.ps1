@@ -113,5 +113,4 @@ function Update-WingetApp {
     &$winget update --id $AppID --silent --accept-package-agreements --accept-source-agreements --force
     # Example Usage
     # Update-WingetApp -AppID ""
-   }
-
+    }
