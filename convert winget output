@@ -1,0 +1,10 @@
+# Run winget command and store output in a variable
+$wingetOutput = winget list --source msstore --output json
+
+# Convert the JSON output to a PowerShell object
+$wingetObject = $wingetOutput | ConvertFrom-Json
+
+# Now you can access the data as an object
+$wingetObject | ForEach-Object {
+    Write-Output $_.Name
+}
