@@ -11,6 +11,8 @@ function Start-Logs() {
     # Start-Logs -AppName "Git" -Method "Uninstall"
 }
 
+#### Registry
+
 # Add registry key value
 function New-RegistryKeyValue {
     param (
@@ -36,6 +38,8 @@ function Get-KeyValue {
     # Get-KeyValue -path "registry::HKCU:\Software\Microsoft\Office\16.0\Outlook\Resiliency\DoNotDisableAddinList"
 
 }
+
+### Winget SystemContext
 
 function Get-WingetPath {
     $winget = Resolve-Path "C:\Program Files\WindowsApps\Microsoft.DesktopAppInstaller_*_*__8wekyb3d8bbwe\winget.exe"
@@ -100,7 +104,7 @@ function Pin-WingetApp {
 
 function Update-WingetAppAll {
  $winget = Get-WingetPath
- return &$winget update --All --silent --accept-package-agreements --accept-source-agreements --force
+ return &$winget update --All --silent --accept-package-agreements --accept-source-agreements --force --scope machine
  # Example Usage
  # Update-WingetAppAll
 }
@@ -113,4 +117,22 @@ function Update-WingetApp {
     &$winget update --id $AppID --silent --accept-package-agreements --accept-source-agreements --force
     # Example Usage
     # Update-WingetApp -AppID ""
+}
+
+### Winget User Context
+
+function Get-WingetUpdateAppAllUser{
+    $evidence = return winget update --All --silent --accept-package-agreements --accept-source-agreements --force --scope User --include-unknown
+    if($evidence -contains "No installed package found matching input criteria."){
+        Write-Host "No apps need to be update"
+        #Exit 0
     }
+    else {
+        Write-Host "Application requires update"
+        #Exit 1
+    }
+}
+
+function Update-WingetAppAllUser{
+    return winget update --All --silent --accept-package-agreements --accept-source-agreements --force --scope User --include-unknown
+}

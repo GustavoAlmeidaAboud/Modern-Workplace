@@ -1,22 +1,30 @@
 function Get-WingetPath {
+    # Resolves the path to the winget executable
     $winget = Resolve-Path "C:\Program Files\WindowsApps\Microsoft.DesktopAppInstaller_*_*__8wekyb3d8bbwe\winget.exe"
+    
+    # If multiple paths are found, use the latest one
     if ($winget.Count -gt 1) {
         $winget = $winget[-1].Path
     } else {
+        # Otherwise, use the single path found
         $winget = $winget.Path
     }
+    
+    # Return the resolved path
     return $winget
 }
+
 function Pin-WingetApp {
+    # Get the path to the winget executable
     $winget = Get-WingetPath
+    
     param (
+        # Parameter for the AppID to pin
         [String]$AppID
     )
+    
+    # Use winget to pin the specified app
     &$winget pin add --id "$AppID"
-}
-function Update-WingetAppAll {
-    $winget = Get-WingetPath
-    &$winget update --All --silent --accept-package-agreements --accept-source-agreements --force
 }
 
 $AppsExclusion = @(
@@ -28,7 +36,7 @@ $AppsExclusion = @(
     "Microsoft.Office",
     "Microsoft.VisualStudioCode",
     "Microsoft.UI.Xaml.2.7",
-    "Microsoft.OneDrive"
+    "Microsoft.OneDrive",
     "Microsoft.Teams",
     "Microsoft.Teams.Classic",
     "Tableau.Desktop",
@@ -55,14 +63,40 @@ $AppsExclusion = @(
     "JetBrains.IntelliJIDEA.Ultimate"
 )
 
-foreach($App in $AppsExclusion){
+
+# List of applications to exclude from pinning or updating
+
+foreach($App in $AppsExclusion) {
     try {
+        # Attempt to pin each application
         Write-Host "Pinning app $App"
         Pin-WingetApp -AppID $App
     }
     catch {
+        # If pinning fails, log that the app is not installed
         Write-host "$App is not installed no Pin required"
-        Write-Host "An error occurred: $_"
-        
+        # Write-Host "$_"
     }
+}
+
+
+function Update-WingetAppAll {
+    # Get the path to the winget executable
+    $winget = Get-WingetPath
+    
+    # Use winget to update all apps silently and forcefully
+    &$winget update --All --silent --accept-package-agreements --accept-source-agreements --force --include-unknown
+}
+
+
+
+try {
+    # Attempt to update all winget applications
+    Write-Host "Updating Winget Applications"
+    Update-WingetAppAll
+    Exit 0
+}
+catch {
+    # If updating fails, log the error message
+    Write-Host "$_"
 }
