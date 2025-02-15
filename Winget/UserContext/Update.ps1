@@ -1,8 +1,8 @@
 # Generate Logs
 function Start-Logs() {
     param(
-        [string]$AppName = "",
-        [string]$Method = ""
+        [string]$AppName,
+        [string]$Method
     )
     $date = get-date -format "dddd-MM-dd-HH"
     $logPath = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\$method-$AppName-$date.log"

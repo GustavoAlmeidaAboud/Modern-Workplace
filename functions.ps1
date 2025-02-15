@@ -77,7 +77,7 @@ function Uninstall-WingetApp {
     # Get the winget executable path
     $Winget = Get-WingetPath
     # Execute the winget command and store the result
-    &$Winget uninstall --id $AppID -All --silent --force --accept-source-agreements
+    &$Winget uninstall --id $AppID -All --silent --force --accept-source-agreements --scope Machine
     # Example Usage
     # Uninstall-WingetApp -AppID "Mozilla.Firefox"
 }
@@ -87,7 +87,7 @@ function Install-WingetApp {
     param(
         [string]$AppID
     )
-    &$Winget install --id $AppID -All --silent --force --accept-source-agreements --accept-package-agreements
+    &$Winget install --id $AppID -All --silent --force --accept-source-agreements --accept-package-agreements --scope Machine
     # Example usage
     # install-WingetApp -AppID "VideoLAN.VLC"
 }
@@ -114,7 +114,7 @@ function Update-WingetApp {
         [string]$AppID
     )
     $winget = Get-WingetPath
-    &$winget update --id $AppID --silent --accept-package-agreements --accept-source-agreements --force
+    &$winget update --id $AppID --silent --accept-package-agreements --accept-source-agreements --force --scope machine
     # Example Usage
     # Update-WingetApp -AppID ""
 }
