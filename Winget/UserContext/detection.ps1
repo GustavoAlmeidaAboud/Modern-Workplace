@@ -7,10 +7,10 @@ function Get-WingetUpdateAppAllUser {
     # Check the output for the specific string indicating no updates are needed
     if ($evidence -contains "No installed package found matching input criteria.") {
         Write-Host "No apps need to be updated"
-        #Exit 0
+        Exit 0
     } else {
         Write-Host "Application requires update"
-        #Exit 1
+        Exit 1
     }
 }
 

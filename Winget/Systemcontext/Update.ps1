@@ -88,8 +88,6 @@ function Update-WingetAppAll {
     &$winget update --All --silent --accept-package-agreements --accept-source-agreements --force --include-unknown
 }
 
-
-
 try {
     # Attempt to update all winget applications
     Write-Host "Updating Winget Applications"
