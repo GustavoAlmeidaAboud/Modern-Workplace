@@ -62,5 +62,7 @@ foreach($App in $AppsExclusion){
     }
     catch {
         Write-host "$App is not installed no Pin required"
+        Write-Host "An error occurred: $_"
+        
     }
 }

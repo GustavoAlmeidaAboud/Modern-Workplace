@@ -2,7 +2,7 @@
 
 function Get-WingetApp {
     param(
-        [string]$AppName = "firefox"
+        [string]$AppName
     )
     # Get the winget executable path
     $Winget = Get-WingetPath
