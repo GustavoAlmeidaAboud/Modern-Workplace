@@ -10,4 +10,11 @@ function Uninstall-WingetApp {
     &$Winget uninstall --id $AppID --All -h --force --accept-source-agreements
 }
 
-Uninstall-WingetApp -AppID "VideoLAN.VLC"
+try {
+    Write-Host "unInstalling required app"
+    Uninstall-WingetApp -AppID "VideoLAN.VLC"
+    
+}
+catch {
+    Write-Host "Unable to uninstall app"
+}
