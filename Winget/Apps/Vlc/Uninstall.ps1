@@ -11,10 +11,11 @@ function Uninstall-WingetApp {
 }
 
 try {
-    Write-Host "unInstalling required app"
+    Write-Host "Uninstalling required app"
     Uninstall-WingetApp -AppID "VideoLAN.VLC"
     
 }
 catch {
     Write-Host "Unable to uninstall app"
+    Write-Host "An error occurred: $_"
 }
