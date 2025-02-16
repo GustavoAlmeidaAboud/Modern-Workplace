@@ -17,11 +17,11 @@ function Get-UpdateWingetAppAll {
         &$winget update --All --silent --accept-package-agreements --accept-source-agreements --force --include-unknown --scope machine
     }
     if($evidence -contains "No installed package found matching input criteria."){
-        Write-Host "No apps need update"
+        Write-Host "No updates required"
         Exit 0
     }
     else{
-        Write-host "Apps need to be updated"
+        Write-host "Updates required"
         Exit 1
     }
 }

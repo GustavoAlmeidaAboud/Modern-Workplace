@@ -30,7 +30,6 @@ function Pin-WingetApp {
 $AppsExclusion = @(
     "Microsoft.Teams",
     "Google.Chrome",
-    "Microsoft.Edge",
     "Microsoft.Outlook",
     "Zoom.Zoom",
     "Microsoft.Office",
@@ -63,7 +62,6 @@ $AppsExclusion = @(
     "JetBrains.IntelliJIDEA.Ultimate"
 )
 
-
 # List of applications to exclude from pinning or updating
 
 foreach($App in $AppsExclusion) {
@@ -79,13 +77,12 @@ foreach($App in $AppsExclusion) {
     }
 }
 
-
 function Update-WingetAppAll {
     # Get the path to the winget executable
     $winget = Get-WingetPath
     
     # Use winget to update all apps silently and forcefully
-    &$winget update --All --silent --accept-package-agreements --accept-source-agreements --force --include-unknown
+    &$winget update --All --silent --accept-package-agreements --accept-source-agreements --force --include-unknown --scope Machine
 }
 
 try {

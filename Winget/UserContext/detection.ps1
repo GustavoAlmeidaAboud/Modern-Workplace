@@ -1,7 +1,7 @@
 function Get-WingetUpdateAppAllUser {
     # Capture the output of the winget command
     $evidence = & {
-        winget update --All --silent --accept-package-agreements --accept-source-agreements --force --scope User --include-unknown
+        winget update --All --silent --accept-package-agreements --accept-source-agreements --force --scope User --include-unknown -o
     }
     
     # Check the output for the specific string indicating no updates are needed

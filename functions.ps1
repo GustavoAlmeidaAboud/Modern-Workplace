@@ -102,6 +102,16 @@ function Pin-WingetApp {
     # Pin-WingetApp -AppID "Valve.Steam"
 }
 
+function UnPin-WingetApp {
+    param (
+        [String]$AppID
+    )
+    $winget = Get-WingetPath
+    &$winget pin remove --id $AppID
+    # Example usage
+    # Pin-WingetApp -AppID "Valve.Steam"
+}
+
 function Update-WingetAppAll {
  $winget = Get-WingetPath
  return &$winget update --All --silent --accept-package-agreements --accept-source-agreements --force --scope machine
