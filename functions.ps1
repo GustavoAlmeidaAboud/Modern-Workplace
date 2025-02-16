@@ -146,3 +146,13 @@ function Get-WingetUpdateAppAllUser{
 function Update-WingetAppAllUser{
     return winget update --All --silent --accept-package-agreements --accept-source-agreements --force --scope User --include-unknown
 }
+
+function Start-WingetLogsUpdateUserApps{
+
+    $AppName = "WingetApps"
+    $method = "Update"
+    $date = get-date -format "dddd-MM-dd-HH"
+    $logPath = "$env:localappdata\winget\logs\$method-$AppName-$date.log"
+    New-Item -Path $logPath -ItemType File -Force
+    icacls $logPath /grant Everyone:F
+}

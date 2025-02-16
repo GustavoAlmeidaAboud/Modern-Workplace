@@ -1,30 +1,73 @@
-function Get-WingetPath {
-    # Resolves the path to the winget executable
-    $winget = Resolve-Path "C:\Program Files\WindowsApps\Microsoft.DesktopAppInstaller_*_*__8wekyb3d8bbwe\winget.exe"
-    
-    # If multiple paths are found, use the latest one
-    if ($winget.Count -gt 1) {
-        $winget = $winget[-1].Path
-    } else {
-        # Otherwise, use the single path found
-        $winget = $winget.Path
-    }
-    
-    # Return the resolved path
-    return $winget
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
+
+
+$AppName = "WingetAppsUpdate"
+$Method = "Update"
+$date = get-date -format "dddd-MM-dd-HH"
+$logPath = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\$method-$AppName-$date.log"
+
+New-Item -Path $logPath -ItemType File -Force
+
+icacls $logPath /grant Everyone:F
+
+class Software {
+    [string]$Name
+    [string]$Id
+    [string]$Version
+    [string]$AvailableVersion
 }
 
-function Pin-WingetApp {
-    # Get the path to the winget executable
-    $winget = Get-WingetPath
-    
-    param (
-        # Parameter for the AppID to pin
-        [String]$AppID
-    )
-    
-    # Use winget to pin the specified app
-    &$winget pin add --id "$AppID"
+$Winget = Get-ChildItem -Path (Join-Path -Path (Join-Path -Path $env:ProgramFiles -ChildPath "WindowsApps") -ChildPath "Microsoft.DesktopAppInstaller*_x64*\winget.exe")
+
+$upgradeResult = & $Winget upgrade | Out-String
+
+$lines = $upgradeResult.Split([Environment]::NewLine)
+
+
+# Find the line that starts with Name, it contains the header
+$fl = 0
+while (-not $lines[$fl].StartsWith("Name"))
+{
+    $fl++
+}
+
+# Line $i has the header, we can find char where we find ID and Version
+$idStart = $lines[$fl].IndexOf("Id")
+$versionStart = $lines[$fl].IndexOf("Version")
+$availableStart = $lines[$fl].IndexOf("Available")
+$sourceStart = $lines[$fl].IndexOf("Source")
+
+# Now cycle in real package and split accordingly
+$upgradeList = @()
+For ($i = $fl + 1; $i -le $lines.Length; $i++) 
+{
+    $line = $lines[$i]
+    if ($line.Length -gt ($availableStart + 1) -and -not $line.StartsWith('-'))
+    {
+        $name = $line.Substring(0, $idStart).TrimEnd()
+        $id = $line.Substring($idStart, $versionStart - $idStart).TrimEnd()
+        $version = $line.Substring($versionStart, $availableStart - $versionStart).TrimEnd()
+        $available = $line.Substring($availableStart, $sourceStart - $availableStart).TrimEnd()
+        $software = [Software]::new()
+        $software.Name = $name;
+        $software.Id = $id;
+        $software.Version = $version
+        $software.AvailableVersion = $available;
+
+        $upgradeList += $software
+    }
 }
 
 $AppsExclusion = @(
@@ -62,36 +105,15 @@ $AppsExclusion = @(
     "JetBrains.IntelliJIDEA.Ultimate"
 )
 
-# List of applications to exclude from pinning or updating
-
-foreach($App in $AppsExclusion) {
-    try {
-        # Attempt to pin each application
-        Write-Host "Pinning app $App"
-        Pin-WingetApp -AppID $App
+foreach ($package in $upgradeList) 
+{
+    if (-not ($AppsExclusion -contains $package.Id)) 
+    {
+        Write-Host "Going to upgrade package $($package.id)"
+        & $winget upgrade $package.id --silent --accept-package-agreements --accept-source-agreements --force --disable-interactivity -o $logPath
     }
-    catch {
-        # If pinning fails, log that the app is not installed
-        Write-host "$App is not installed no Pin required"
-        # Write-Host "$_"
+    else 
+    {    
+        Write-Host "Skipped upgrade to package $($package.id)"
     }
-}
-
-function Update-WingetAppAll {
-    # Get the path to the winget executable
-    $winget = Get-WingetPath
-    
-    # Use winget to update all apps silently and forcefully
-    &$winget update --All --silent --accept-package-agreements --accept-source-agreements --force --include-unknown --scope Machine
-}
-
-try {
-    # Attempt to update all winget applications
-    Write-Host "Updating Winget Applications"
-    Update-WingetAppAll
-    Exit 0
-}
-catch {
-    # If updating fails, log the error message
-    Write-Host "$_"
 }
