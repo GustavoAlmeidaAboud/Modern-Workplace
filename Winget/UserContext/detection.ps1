@@ -1,12 +1,3 @@
-$AppName = "WingetApps"
-$method = "Update"
-$date = get-date -format "dddd-MM-dd-HH"
-$logPath = "$env:localappdata\winget\logs\$method-$AppName-$date.log"
-
-New-Item -Path $logPath -ItemType File -Force
-
-icacls $logPath /grant Everyone:F
-
 class Software {
     [string]$Name
     [string]$Id
@@ -17,7 +8,12 @@ class Software {
 Winget upgrade --accept-package-agreements --accept-source-agreements
 $upgradeResult = Winget upgrade --scope user | Out-String
 
-$lines = $upgradeResult.Split([Environment]::NewLine)
+if($upgradeResult -like "*No installed package found matching input criteria.*"){
+    Write-Host "No update needed"
+    Exit 0
+}
+else {
+    $lines = $upgradeResult.Split([Environment]::NewLine)
 
 
 # Find the line that starts with Name, it contains the header
@@ -98,4 +94,6 @@ if( ($upgradeList.id -eq $null) -or ($upgradeList.id -in $AppsExclusion)){
 else {
     Write-Host "Update needed"
     Write-Host $upgradeList.id
+    Exit 1
+}
 }

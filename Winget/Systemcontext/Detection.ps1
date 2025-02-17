@@ -1,13 +1,3 @@
-$AppName = "WingetAppsUpdate"
-$Method = "Update"
-$date = get-date -format "dddd-MM-dd-HH"
-$logPath = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\$method-$AppName-$date.log"
-
-New-Item -Path $logPath -ItemType File -Force
-
-icacls $logPath /grant Everyone:F
-
-
 class Software {
     [string]$Name
     [string]$Id
@@ -19,16 +9,23 @@ $Winget = Get-ChildItem -Path (Join-Path -Path (Join-Path -Path $env:ProgramFile
 
 $upgradeResult = & $Winget upgrade | Out-String
 
-$lines = $upgradeResult.Split([Environment]::NewLine)
+if ($upgradeResult -like "*No installed package found matching input criteria.*") {
+    Write-Host "No updates needed"
+    Exit 0
+}
+else {
+    $lines = $upgradeResult.Split([Environment]::NewLine)
 
 
 # Find the line that starts with Name, it contains the header
 
 $fl = 0
-while (-not $lines[$fl].StartsWith("Name"))
+
+    while (-not $lines[$fl].StartsWith("Name"))
 {
     $fl++
 }
+
 
 # Line $i has the header, we can find char where we find ID and Version
 $idStart = $lines[$fl].IndexOf("Id")
@@ -99,4 +96,5 @@ if(($upgradeList.id -eq $null) -or ($upgradeList.id -in $AppsExclusion)){
 else {
     Write-Host "Update needed"
     Exit 1
+}
 }
