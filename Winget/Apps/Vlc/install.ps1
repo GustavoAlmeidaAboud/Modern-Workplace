@@ -1,3 +1,11 @@
+
+$AppName = "vlc"
+$method = "Install"
+$date = get-date -format "dddd-MM-dd-HH"
+$logPath = "$env:localappdata\winget\logs\$method-$AppName-$date.log"
+New-Item -Path $logPath -ItemType File -Force
+icacls $logPath /grant Everyone:F
+
 function Get-WingetPath {
     $winget = Resolve-Path "C:\Program Files\WindowsApps\Microsoft.DesktopAppInstaller_*_*__8wekyb3d8bbwe\winget.exe"
     if ($winget.Count -gt 1) {
@@ -12,19 +20,11 @@ function Install-WingetApp {
     param(
         [string]$AppID
     )
-    # Get the winget executable path
+        
     $Winget = Get-WingetPath
-    # Execute the winget command and store the result
-    &$Winget install --id $AppID -h --force --accept-source-agreements --accept-package-agreements
+    &$Winget install --id $AppID --silent --force --accept-source-agreements --accept-package-agreements --scope Machine -o $logpath
+    # Example usage
+    # install-WingetApp -AppID "VideoLAN.VLC"
 }
 
-try {
-    Write-Host "Installing required app"
-    install-WingetApp -AppID "VideoLAN.VLC" 
-    Exit 0
-}
-catch {
-    Write-Host "Unable to uninstall app"
-    Write-Host "An error occurred: $_"
-    Exit 1
-}
+Install-WingetApp -AppID "VideoLAN.VLC"
