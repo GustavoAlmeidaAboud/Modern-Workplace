@@ -83,11 +83,12 @@ function Uninstall-WingetApp {
 }
 
 function Install-WingetApp {
-    $Winget = Get-WingetPath
     param(
         [string]$AppID
     )
-    &$Winget install --id $AppID -All --silent --force --accept-source-agreements --accept-package-agreements --scope Machine
+        
+    $Winget = Get-WingetPath
+    &$Winget install --id $AppID --silent --force --accept-source-agreements --accept-package-agreements --scope Machine
     # Example usage
     # install-WingetApp -AppID "VideoLAN.VLC"
 }
