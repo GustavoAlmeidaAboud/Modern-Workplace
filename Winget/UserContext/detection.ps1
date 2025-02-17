@@ -91,11 +91,11 @@ $AppsExclusion = @(
     "JetBrains.IntelliJIDEA.Ultimate"
 )
 
-if($upgradeList.id -in $AppsExclusion){
+if( ($upgradeList.id -eq $null) -or ($upgradeList.id -in $AppsExclusion)){
     Write-host "No update needed"
     Exit 0
 }
 else {
     Write-Host "Update needed"
-    Exit 1
+    Write-Host $upgradeList.id
 }

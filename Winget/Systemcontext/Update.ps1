@@ -88,7 +88,6 @@ $AppsExclusion = @(
     "Postman.Postman",
     "Microsoft.VCRedist.2015+.x64",
     "Microsoft.VCRedist.2015+.x86",
-    "Adobe.Acrobat.Reader.64-bit",
     "Microsoft.VCRedist.2013.x64",
     "Microsoft.VCRedist.2013.x86",
     "Oracle.JavaRuntimeEnvironment",
