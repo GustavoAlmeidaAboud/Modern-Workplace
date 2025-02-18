@@ -14,6 +14,8 @@ if ($upgradeResult -like "*No installed package found matching input criteria.*"
     Exit 0
 }
 else {
+    Write-Host "Update needed starting remediation script"
+    Exit 1
     $lines = $upgradeResult.Split([Environment]::NewLine)
 
 

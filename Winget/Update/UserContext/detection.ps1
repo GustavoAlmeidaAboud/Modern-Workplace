@@ -13,6 +13,7 @@ if($upgradeResult -like "*No installed package found matching input criteria.*")
     Exit 0
 }
 else {
+    Write-Host "Updates needed starting"
     $lines = $upgradeResult.Split([Environment]::NewLine)
 
 
