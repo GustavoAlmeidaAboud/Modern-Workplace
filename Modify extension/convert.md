@@ -45,19 +45,21 @@ Step 5: Configure the Custom Profile
 
 Enter a name and description for the profile.
 
-
 In the OMA-URI Settings section, click Add.
 
 Name: Enter a name for the setting.
 
 Description: Enter a description (optional).
 
-OMA-URI: Enter the OMA-URI path: ./Device/Vendor/MSFT/Policy/Config/ApplicationDefaults/DefaultAssociationsConfiguration.
+OMA-URI: Enter the OMA-URI path: ./Device/Vendor/MSFT/Policy/Config/ApplicationDefaults/DefaultAssociationsConfiguration
 Data type: Select String.
 Value: Paste the Base64 encoded content of your XML file here. It should look something like this:
 PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjxEZWZhdWx0QXNzb2NpYXRpb25zPg0KICA8QXNzb2NpYXRpb24gSWRlbnRpZmllcj0idGVsIiBQcm9nSWQ9IkFwcFh2a3M5NGdqajZrcXl0M21kbTZnZGtuNzh6bmdweXRmZCIgQXBwbGljYXRpb25OYW1lPSJNaWNyb3NvZnQgVGVhbXMiIC8+DQo8L0RlZmF1bHRBc3NvY2lhdGlvbnM+
+
 Step 6: Assign the Profile
 Assign the profile to the appropriate groups of devices or users.
 
 Step 7: Monitor Deployment
 After deploying the profile, monitor the deployment status in the Intune admin center to ensure it has been applied successfully.
+
+Step 8: After the profile is applied computers have to been restarted to make it effective.
