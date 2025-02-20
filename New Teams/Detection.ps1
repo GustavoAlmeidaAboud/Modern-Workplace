@@ -6,8 +6,8 @@ $TeamsNew = get-appxpackage -user "$userSID" | Where-Object PackageFullName -lik
 # Define the command to run as the user
     if ($TeamsNew -and (!$TeamsClassic)) {
         Write-Host "Found it!"
-        #exit 0
+        exit 0
     } else {
         Write-Host "Not found!"
-        #exit 1
+        exit 1
     }
