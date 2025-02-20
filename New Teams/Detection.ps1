@@ -1,10 +1,13 @@
-$TeamsNew = Get-AppxPackage -AllUsers| Where-Object PackageFullName -like '*MSTeams*'
-$TeamsClassic = Test-Path C:\Users\*\AppData\Local\Microsoft\Teams\current\Teams.exe
+### Get Logged On User SID
+$loggedOnUser = (Get-WmiObject -Class Win32_ComputerSystem).UserName
+$userSID = (Get-WmiObject -Class Win32_UserAccount -Filter "Name='$($loggedOnUser.Split('\')[-1])'").SID
+$TeamsNew = get-appxpackage -user "$userSID" | Where-Object PackageFullName -like '*MSTeams*'
 
-if ($TeamsNew.'PackageUserInformation'.'InstallState' -contains "Installed" -and (!$TeamsClassic)) {
-    Write-Host "Found it!"
-     exit 0
-} else {
-    Write-Host "Not found!"
-     exit 1
-}
+# Define the command to run as the user
+    if ($TeamsNew -and (!$TeamsClassic)) {
+        Write-Host "Found it!"
+        #exit 0
+    } else {
+        Write-Host "Not found!"
+        #exit 1
+    }

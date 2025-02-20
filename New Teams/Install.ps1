@@ -15,8 +15,9 @@ Start-Logs -AppName "New Microsoft Teams" -Method "Install"
 # Check if Teams Classic exists
 $TeamsClassic = Test-Path "C:\Users\*\AppData\Local\Microsoft\Teams\current\Teams.exe"
 
-# Check if New Teams package is installed for any user
-$TeamsNew = Get-AppxPackage -AllUsers | Where-Object PackageFullName -like '*MSTeams*'
+$loggedOnUser = (Get-WmiObject -Class Win32_ComputerSystem).UserName
+$userSID = (Get-WmiObject -Class Win32_UserAccount -Filter "Name='$($loggedOnUser.Split('\')[-1])'").SID
+$TeamsNew = get-appxpackage -user "$userSID" | Where-Object PackageFullName -like '*MSTeams*'
 
 # If Teams Classic exists, uninstall it
 if ($TeamsClassic) {
@@ -26,7 +27,7 @@ if ($TeamsClassic) {
 }
 
 # If New Teams is already installed, exit
-if ($TeamsNew.'PackageUserInformation'.'InstallState' -contains "Installed") {
+if ($TeamsNew) {
     Write-Host "New Microsoft Teams is already installed"
     Stop-Transcript
     Exit 0
