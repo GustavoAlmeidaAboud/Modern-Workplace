@@ -1,0 +1,77 @@
+{
+    "type": "AdaptiveCard",
+    "msteams": {
+        "width": "full"
+    },
+    "body": [
+        {
+            "type": "TextBlock",
+            "size": "Large",
+            "weight": "Bolder",
+            "text": "📊 Reporting Microsoft 365"
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "items": [
+                        {
+                            "type": "Image",
+                            "style": "Person",
+                            "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOx-oA6Y4FzW51y_HUG4eITpSPng7BsGHV_Q&s",
+                            "altText": "Cockpit Alerting",
+                            "size": "Large"
+                        }
+                    ],
+                    "width": "auto"
+                },
+                {
+                    "type": "Column",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "weight": "Bolder",
+                            "text": "Cockpit Alerting",
+                            "wrap": true
+                        },
+                        {
+                            "type": "TextBlock",
+                            "spacing": "None",
+                            "text": "Created: 14-Feb-2017",
+                            "isSubtle": true,
+                            "wrap": true
+                        }
+                    ],
+                    "width": "stretch"
+                }
+            ]
+        },
+        {
+            "type": "TextBlock",
+            "text": "**Microsoft 365 Licenses Overview**",
+            "wrap": true,
+            "size": "Medium",
+            "weight": "Bolder"
+        },
+        {
+            "type": "FactSet",
+            "facts": [
+                {
+                    "title": "E5 Licenses Available:",
+                    "value": "@{items('Apply_to_each_2')['alllicenses[LicensesLeft]']}"
+                },
+                {
+                    "title": "SharePoint Sites above 85:",
+                    "value": "@{join(variables('FormatedData'), ', ')}"
+                },
+                {
+                    "title": "Inactive Users:",
+                    "value": "test"
+                }
+            ]
+        }
+    ],
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.5"
+}

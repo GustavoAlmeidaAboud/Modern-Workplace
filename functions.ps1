@@ -11,7 +11,7 @@ function Start-Logs() {
     # Start-Logs -AppName "Git" -Method "Uninstall"
 }
 
-#### Registry
+#### Registryk
 
 # Add registry key value
 function New-RegistryKeyValue {

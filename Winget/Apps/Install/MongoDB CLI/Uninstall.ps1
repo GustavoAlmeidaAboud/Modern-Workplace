@@ -1,5 +1,6 @@
-$AppName = "Brave"
-$method = "Install"
+
+$AppName = "MongoDBCLI"
+$method = "uninstall"
 $date = get-date -format "dddd-MM-dd-HH"
 $logPath = "$env:localappdata\winget\logs\$method-$AppName-$date.log"
 New-Item -Path $logPath -ItemType File -Force
@@ -15,15 +16,15 @@ function Get-WingetPath {
     return $winget
 }
 
-function Install-WingetApp {
+function uninstall-WingetApp {
     param(
         [string]$AppID
     )
         
     $Winget = Get-WingetPath
-    &$Winget install --id $AppID --silent --force --accept-source-agreements --accept-package-agreements --scope Machine -o $logpath
+    &$Winget uninstallinstall --id $AppID --All --silent --force --accept-source-agreements --scope Machine -o $logpath
     # Example usage
     # install-WingetApp -AppID "VideoLAN.VLC"
 }
 
-Install-WingetApp -AppID "BRAVE.BRAVE"
+unInstall-WingetApp -AppID "MongoDB.MongoDBCLI"
