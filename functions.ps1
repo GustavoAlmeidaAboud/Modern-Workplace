@@ -136,11 +136,11 @@ function Get-WingetUpdateAppAllUser{
     $evidence = return winget update --All --silent --accept-package-agreements --accept-source-agreements --force --scope User --include-unknown
     if($evidence -contains "No installed package found matching input criteria."){
         Write-Host "No apps need to be update"
-        #Exit 0
+        Exit 0
     }
     else {
         Write-Host "Application requires update"
-        #Exit 1
+        Exit 1
     }
 }
 
@@ -160,6 +160,7 @@ function Start-WingetLogsUpdateUserApps{
 
 
 
+## Get user SID
 function Get-LoggedUserSid {
     $loggedOnUser = (Get-WmiObject -Class Win32_ComputerSystem).UserName
     $userSID = (Get-WmiObject -Class Win32_UserAccount -Filter "Name='$($loggedOnUser.Split('\')[-1])'").SID
