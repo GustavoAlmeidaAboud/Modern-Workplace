@@ -1,8 +1,8 @@
 # Function to generate log file path with current date and module name
 function Start-Logs {
     param(
-        [string]$AppName = "",
-        [string]$Method = ""
+        [string]$AppName,
+        [string]$Method
     )
     $date = Get-Date -Format "dddd-MM-dd-HH"
     $logPath = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\$Method-$AppName-$date.log"

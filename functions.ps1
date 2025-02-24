@@ -157,3 +157,11 @@ function Start-WingetLogsUpdateUserApps{
     New-Item -Path $logPath -ItemType File -Force
     icacls $logPath /grant Everyone:F
 }
+
+
+
+function Get-LoggedUserSid {
+    $loggedOnUser = (Get-WmiObject -Class Win32_ComputerSystem).UserName
+    $userSID = (Get-WmiObject -Class Win32_UserAccount -Filter "Name='$($loggedOnUser.Split('\')[-1])'").SID
+    return $userSID
+}

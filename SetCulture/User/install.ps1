@@ -1,0 +1,1 @@
+Set-Culture -CultureInfo fr-lu
