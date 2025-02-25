@@ -36,6 +36,6 @@ if ($TeamsNew) {
     Write-Host "Installing New Microsoft Teams"
     Start-Process -FilePath ".\teamsbootstrapper.exe" -ArgumentList "-p" -Wait
     Start-Process -FilePath ".\teamsbootstrapper.exe" -ArgumentList "-p" -Wait
-    Stop-Transcript
     Exit 0
+    Stop-Transcript
 }
