@@ -6,7 +6,7 @@ Welcome to my page! I’m a **Modern Workplace Engineer** and **Azure Cloud Engi
 
 ## About Me
 
-I bring hands-on experience in **cloud computing** and active engagement in technology communities. My expertise spans modern IT solutions, user management with Microsoft Intune and PowerShell, and security practices around credentials, BitLocker encryption, and file permissions[3].
+I bring hands-on experience in **cloud computing** and active engagement in technology communities. My expertise spans modern IT solutions, user management with Microsoft Intune and PowerShell, and security practices around credentials, BitLocker encryption, and file permissions.
 
 ---
 
