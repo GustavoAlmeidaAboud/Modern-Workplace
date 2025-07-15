@@ -1,6 +1,6 @@
 # Gustavo Almeida
 
-Welcome to my portfolio! I’m a **Modern Workplace Engineer** and **Azure Cloud Engineer** passionate about enabling efficient, secure, and collaborative digital environments.
+Welcome to my page! I’m a **Modern Workplace Engineer** and **Azure Cloud Engineer** passionate about enabling efficient, secure, and collaborative digital environments.
 
 ---
 
